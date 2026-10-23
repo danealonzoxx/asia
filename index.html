@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuala Lumpur – Bangkok – Manila | Dec–Jan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --charcoal-bg:#3E3C37;
+    --taupe:#8E8878;
+    --offwhite:#EAE9E6;
+    --ivory:#F4F3F1;
+    --ochre:#C6904A;
+    --charcoal:#3E3C37;
+    --white:#FFFFFF;
+    --line:#DEDBD3;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--ivory);
+    color:var(--charcoal);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    margin:0;
+    color:var(--taupe);
+  }
+
+  header{
+    background:var(--charcoal-bg);
+    color:var(--ivory);
+    padding:64px 24px 48px;
+    text-align:center;
+    position:relative;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:-1px;
+    height:24px;
+    background:
+      radial-gradient(circle at 12px 0, transparent 12px, var(--charcoal-bg) 13px) 0 0/24px 24px repeat-x;
+  }
+  header .eyebrow{
+    color:var(--ochre);
+    font-size:13px;
+    letter-spacing:0.04em;
+    margin-bottom:12px;
+  }
+  header h1{
+    color:var(--white);
+    font-size:clamp(28px,6vw,42px);
+    margin-bottom:10px;
+  }
+  header p{
+    color:var(--offwhite);
+    font-size:15px;
+    max-width:520px;
+    margin:0 auto;
+  }
+
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:56px 20px 80px;
+  }
+
+  /* Timeline / boarding-pass style itinerary */
+  .timeline{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-bottom:64px;
+  }
+  .leg{
+    display:flex;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .leg .stub{
+    background:var(--charcoal-bg);
+    color:var(--ivory);
+    width:88px;
+    flex-shrink:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:14px 8px;
+    text-align:center;
+    border-right:2px dashed var(--ochre);
+  }
+  .leg .stub .date{
+    font-size:12px;
+    color:var(--ochre);
+    margin-bottom:2px;
+  }
+  .leg .stub .day{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    color:var(--white);
+  }
+  .leg .body{
+    flex:1;
+    padding:16px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+  }
+  .leg .route{
+    font-weight:600;
+    font-size:16px;
+    color:var(--charcoal);
+    margin-bottom:3px;
+  }
+  .leg .detail{
+    font-size:13px;
+    color:var(--taupe);
+  }
+  .leg .price{
+    font-family:'Fraunces',serif;
+    font-size:18px;
+    color:var(--ochre);
+    white-space:nowrap;
+  }
+  .leg.stay{
+    background:var(--offwhite);
+  }
+  .leg.stay .stub{
+    background:var(--ochre);
+  }
+  .leg.stay .stub .day, .leg.stay .stub .date{color:var(--charcoal-bg);}
+
+  .total-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:18px 22px;
+    background:var(--charcoal-bg);
+    border-radius:10px;
+    color:var(--ivory);
+    margin-bottom:8px;
+  }
+  .total-bar .label{font-size:13px;color:var(--ochre);}
+  .total-bar .value{font-family:'Fraunces',serif;font-size:26px;color:var(--white);}
+
+  /* City guide section */
+  .section-title{
+    text-align:center;
+    margin-bottom:8px;
+    font-size:26px;
+  }
+  .section-sub{
+    text-align:center;
+    color:var(--taupe);
+    font-size:14px;
+    margin-bottom:40px;
+  }
+
+  .city-nav{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:32px;
+  }
+  .city-nav button{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    padding:9px 16px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--white);
+    color:var(--charcoal);
+    cursor:pointer;
+  }
+  .city-nav button.active{
+    background:var(--charcoal-bg);
+    color:var(--ivory);
+    border-color:var(--charcoal-bg);
+  }
+
+  .city-card{
+    display:none;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:28px 26px;
+    margin-bottom:16px;
+  }
+  .city-card.active{display:block;}
+  .city-card h3{
+    font-size:22px;
+    margin-bottom:2px;
+  }
+  .city-card .tagline{
+    color:var(--taupe);
+    font-size:13px;
+    margin-bottom:22px;
+  }
+
+  .group-label{
+    font-size:11.5px;
+    letter-spacing:0.03em;
+    color:var(--ochre);
+    margin:22px 0 4px;
+  }
+  .group-label:first-of-type{margin-top:0;}
+
+  .reco{
+    display:flex;
+    gap:14px;
+    padding:14px 0;
+    border-top:1px solid var(--line);
+  }
+  .reco.first{border-top:none;}
+  .reco .tag{
+    flex-shrink:0;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:var(--offwhite);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+  }
+  .reco .name{
+    font-weight:600;
+    font-size:15px;
+    color:var(--charcoal);
+    margin-bottom:3px;
+  }
+  .reco .meta{
+    font-size:12px;
+    color:var(--ochre);
+    margin-bottom:4px;
+    letter-spacing:0.01em;
+  }
+  .reco .desc{
+    font-size:13.5px;
+    color:var(--taupe);
+  }
+
+  .escape-toggle{
+    display:flex;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .escape-toggle button{
+    flex:1;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--offwhite);
+    color:var(--charcoal);
+    cursor:pointer;
+  }
+  .escape-toggle button.active{
+    background:var(--ochre);
+    color:var(--white);
+    border-color:var(--ochre);
+  }
+  .escape-panel{display:none;}
+  .escape-panel.active{display:block;}
+
+  footer{
+    text-align:center;
+    padding:36px 20px 56px;
+    color:var(--taupe);
+    font-size:12.5px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Dec 7 &mdash; Jan 20</div>
+  <h1 style="color:#FFFFFF;">Home for the holidays</h1>
+  <p>Zürich → Kuala Lumpur → Bangkok → Manila → Kuala Lumpur → Zürich</p>
+</header>
+
+<div class="wrap">
+
+  <div style="background:var(--white);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:24px;">
+    <div class="group-label" style="margin:0 0 10px;">DEC 19–22 · STILL DECIDING</div>
+    <div class="escape-toggle" id="midToggle">
+      <button class="active" onclick="setMidOption('bkk')">Bangkok</button>
+      <button onclick="setMidOption('seoul')">Seoul</button>
+      <button onclick="setMidOption('manila')">Stay in Manila</button>
+    </div>
+    <p style="font-size:13px;color:var(--taupe);margin:12px 0 0;">Pick one to update the timeline, cost, and city guide below.</p>
+  </div>
+
+  <div class="total-bar">
+    <span class="label">Total trip cost</span>
+    <span class="value" id="totalValue">CHF 838</span>
+  </div>
+  <p style="font-size:12px;color:var(--taupe);text-align:center;margin:0 0 40px;">Zürich↔KL round trip confirmed at CHF 554.30 · rest updates with your pick above</p>
+
+  <div class="timeline" id="timeline"></div>
+
+  <h2 class="section-title">City guide</h2>
+  <p class="section-sub">Dining and things to do at every stop along the way</p>
+
+  <div class="city-nav" id="cityNav"></div>
+  <div id="cityCards"></div>
+
+</div>
+
+<footer>Built for the December–January loop &middot; fares and picks current as of booking</footer>
+
+<script>
+let midOption = 'bkk';
+
+const fixedStart = [
+  {stub:"7", month:"DEC", route:"Zürich → Kuala Lumpur", detail:"1 stop DOH · Qatar Airways · QR96/QR852", price:"CHF 554.30", stay:false}
+];
+
+const midLegs = {
+  bkk: [
+    {stub:"16", month:"DEC", route:"Kuala Lumpur → Bangkok", detail:"Nonstop · Thai Vietjet · 2h 15m · Ren arrives", price:81, stay:false},
+    {stub:"18–20", month:"DEC", route:"Pattaya", detail:"Weekend side trip · Gabby arrives, Kevin joins if exam dates allow", price:0, stay:true},
+    {stub:"20–22", month:"DEC", route:"Bangkok", detail:"Back in the city · head to the airport ~11 PM on the 22nd", price:0, stay:true},
+    {stub:"23", month:"DEC", route:"Bangkok → Manila", detail:"Nonstop · Cebu Pacific · 3h 40m · 1:30 AM departure", price:110, stay:false}
+  ],
+  seoul: [
+    {stub:"19–20", month:"DEC", route:"Kuala Lumpur → Seoul", detail:"1 stop SGN · VietJet · 21h35m layover — day tour of Ho Chi Minh City", price:161, stay:false},
+    {stub:"20–22", month:"DEC", route:"Seoul", detail:"Winter city stretch · Claudia's birthday on the 21st", price:0, stay:true},
+    {stub:"22", month:"DEC", route:"Seoul → Manila", detail:"Nonstop · Jeju Air · 4h 45m", price:178, stay:false}
+  ],
+  manila: [
+    {stub:"16", month:"DEC", route:"Kuala Lumpur → Manila", detail:"Flight TBD · straight home", price:null, stay:false}
+  ]
+};
+
+const fixedEndByOption = {
+  bkk: [{stub:"23–8", month:"DEC–JAN", route:"Manila", detail:"Home for the holidays", price:0, stay:true}],
+  seoul: [{stub:"22–8", month:"DEC–JAN", route:"Manila", detail:"Home for the holidays", price:0, stay:true}],
+  manila: [{stub:"16–8", month:"DEC–JAN", route:"Manila", detail:"Extra time home for the holidays", price:0, stay:true}]
+};
+
+const fixedEnd = [
+  {stub:"8", month:"JAN", route:"Manila → Kuala Lumpur", detail:"Nonstop · Cebu Pacific · 4h 10m", price:93, stay:false},
+  {stub:"8–19", month:"JAN", route:"Kuala Lumpur", detail:"Jeremy's birthday on the 10th", price:0, stay:true},
+  {stub:"19–20", month:"JAN", route:"Kuala Lumpur → Zürich", detail:"1 stop DOH · Qatar Airways · QR853/QR93", price:"incl.", stay:false}
+];
+
+function renderTimeline(){
+  const timeline = document.getElementById('timeline');
+  timeline.innerHTML = '';
+  const legs = [...fixedStart, ...midLegs[midOption], ...fixedEndByOption[midOption], ...fixedEnd];
+  legs.forEach(l => {
+    const el = document.createElement('div');
+    el.className = 'leg' + (l.stay ? ' stay' : '');
+    const priceLabel = l.price === null ? 'TBD' : (typeof l.price === 'number' ? (l.price > 0 ? 'CHF ' + l.price : '') : l.price);
+    el.innerHTML = `
+      <div class="stub"><div class="date">${l.month}</div><div class="day">${l.stub}</div></div>
+      <div class="body">
+        <div>
+          <div class="route">${l.route}</div>
+          <div class="detail">${l.detail}</div>
+        </div>
+        ${priceLabel ? `<div class="price">${priceLabel}</div>` : ''}
+      </div>`;
+    timeline.appendChild(el);
+  });
+
+  const known = [...midLegs[midOption], ...fixedEnd].reduce((sum, l) => sum + (typeof l.price === 'number' ? l.price : 0), 0);
+  const hasTBD = midLegs[midOption].some(l => l.price === null);
+  document.getElementById('totalValue').textContent = 'CHF ' + (554.30 + known).toFixed(2) + (hasTBD ? ' + TBD' : '');
+}
+
+function setMidOption(opt){
+  midOption = opt;
+  document.querySelectorAll('#midToggle button').forEach((b,i) => {
+    b.classList.toggle('active', ['bkk','seoul','manila'][i] === opt);
+  });
+  renderTimeline();
+  renderCities();
+  const target = opt === 'bkk' ? 'bkk' : (opt === 'seoul' ? 'seoul' : 'mnl');
+  showCity(target);
+}
+
+renderTimeline();
+
+const baseCities = {
+  kul: {
+    id: "kul", name: "Kuala Lumpur", tagline: "Layover & Jeremy's birthday, Jan 8–19",
+    groups: [
+      { label: "BIRTHDAY DINNER — SOMETHING INTIMATE", recos: [
+        {tag:"◆", name:"Studio Restaurant", meta:"Intimate tasting menu · Plaza Batai", desc:"Dim, low-lit dining room built for a small group. Six-, eight-, or ten-course tasting menus centred on seafood and vegetables — book the whole room out if you want it just the two of you plus Jeremy's crew."}
+      ]},
+      { label: "MORE DINING", recos: [
+        {tag:"★", name:"Nadodi", meta:"1 Michelin star · Four Seasons KL", desc:"South Indian and Sri Lankan tasting menus reimagined through a modern lens — floor-to-ceiling skyline views, consistently on Asia's 50 Best. Book ahead."},
+        {tag:"★", name:"Akar", meta:"1 Michelin star · new in 2026", desc:"A newer TTDI entry reinterpreting Malaysian classics, a strong second choice if Nadodi is full."},
+        {tag:"◇", name:"Nobu Kuala Lumpur", meta:"Japanese-Peruvian · Petronas views", desc:"One floor below Marini's on 57 — reliable for a group dinner with a view if plans change last-minute."}
+      ]},
+      { label: "THINGS TO DO", recos: [
+        {tag:"◈", name:"Petronas Towers & KLCC Park", meta:"Landmark", desc:"The skybridge at dusk, then a walk through the park below — easy to slot into a birthday-week evening."},
+        {tag:"◈", name:"Batu Caves", meta:"Half-day trip", desc:"The limestone temple steps just north of the city — best done early morning before the heat and crowds build."},
+        {tag:"◈", name:"KL Forest Eco Park", meta:"Canopy walk", desc:"A pocket of rainforest right in the city centre, with a short canopy walkway — good for a slow morning."}
+      ]}
+    ]
+  },
+  bkk: {
+    id: "bkk", name: "Bangkok", tagline: "Dec 16–23, with a Pattaya side trip",
+    groups: [
+      { label: "WHO'S AROUND", recos: [
+        {tag:"◇", name:"Ren", meta:"Dec 16–23", desc:"Around for the whole Thailand stretch."},
+        {tag:"◇", name:"Gabby", meta:"Dec 18–23", desc:"Joins in time for the Pattaya weekend."},
+        {tag:"◇", name:"Kevin", meta:"TBD", desc:"Waiting on exam schedule — may join for Pattaya or just the last few days."}
+      ]},
+      { label: "PATTAYA SIDE TRIP — DEC 18–20", recos: [
+        {tag:"◈", name:"Over the Moon Sky Lounge", meta:"Rooftop bar", desc:"Rooftop views over Pattaya — an easy one to build an evening around while the group's together."}
+      ]},
+      { label: "DINING", recos: [
+        {tag:"★★★", name:"Sorn", meta:"3 Michelin stars · Southern Thai", desc:"Deep, uncompromising southern Thai flavours — Thailand's only Thai-cuisine restaurant at the top tier. Bookings open the 25th of the prior month, so it's a long shot for this trip."},
+        {tag:"◆", name:"Phed Mark", meta:"Budget · best pad kra pao in the city", desc:"Mark Wiens' own restaurant — casual, loud, and quick. ~฿300–500 per person."},
+        {tag:"◆", name:"Sam Lor", meta:"Budget-mid · modern Thai, great for groups", desc:"Rooted in Thai tradition but not stuck there — the kind of place that works for a big table that wants to eat a lot and stay late. Reservations recommended."},
+        {tag:"◆", name:"Jay Fai", meta:"Michelin-recognized street food", desc:"Legendary crab omelette — expect a long queue, so book ahead or arrive early."},
+        {tag:"◆", name:"P'Aor", meta:"Budget · famous tom yum noodles", desc:"Cheap, consistently well-reviewed, no-frills."},
+        {tag:"◇", name:"Chatuchak Weekend Market food stalls", meta:"Casual", desc:"If the timing lines up with a weekend, this is the easiest way to eat your way through a huge range of Thai street food in one stop."}
+      ]},
+      { label: "ROOFTOP BARS", recos: [
+        {tag:"◈", name:"Vertigo & Moon Bar", meta:"Banyan Tree · free entry", desc:"Most consistently recommended by repeat visitors — 360° view, 61st floor."},
+        {tag:"◈", name:"Brewski", meta:"Craft beer rooftop · casual", desc:"Relaxed dress code, a dozen taps, good option if the group wants a low-key night over a dressy one."},
+        {tag:"◈", name:"Eagle Nest", meta:"Sala Rattanakosin · Wat Arun view", desc:"Romantic and specifically overlooks Wat Arun — pairs well with the temple visit."}
+      ]},
+      { label: "THINGS TO DO", recos: [
+        {tag:"◈", name:"Wat Arun in traditional Thai outfits", meta:"Temple + costume rental", desc:"Rental shops right at the temple grounds hire out traditional Thai outfits by the hour for photos against the spires — best around golden hour, same trip as the riverside walk."},
+        {tag:"◈", name:"Grand Palace & Wat Phra Kaew", meta:"Landmark", desc:"Bangkok's most-visited site — go early to beat both the heat and the tour groups."},
+        {tag:"◈", name:"Chao Phraya Princess dinner cruise", meta:"Boards at ICONSIAM pier", desc:"Buffet dinner cruising past Wat Arun and the Grand Palace lit up at night. Arrive an hour early for ICONSIAM's Sook Siam market and nightly fountain show. Book rooftop seating a week ahead for weekends."}
+      ]},
+      { label: "GROUP ACTIVITIES", recos: [
+        {tag:"◆", name:"Silom Thai Cooking School", meta:"Small groups, max 9–10", desc:"Market trip, then cook a full meal from scratch — runs a team-building format where small teams compete on 4–5 dishes."},
+        {tag:"◆", name:"Muay Thai class", meta:"Beginner group sessions", desc:"Several gyms around the city run drop-in group classes — no experience needed."},
+        {tag:"◆", name:"Tuk-tuk street food tour", meta:"Evening, small group", desc:"An easy way to cover several neighbourhoods and stalls in one night without planning the route yourselves."}
+      ]}
+    ]
+  },
+  seoul: {
+    id: "seoul", name: "Seoul", tagline: "Dec 19–22, winter city stretch",
+    groups: [
+      { label: "THE OCCASION", recos: [
+        {tag:"◇", name:"Claudia's birthday, Dec 21", meta:"Meeting the girls in Seoul", desc:"Trip's built around this — worth locking down a birthday dinner or activity for the 21st once the group's plans firm up."}
+      ]},
+      { label: "SAIGON LAYOVER — DEC 19–20", recos: [
+        {tag:"◈", name:"Ho Chi Minh City day tour", meta:"~21h35m layover, worth checking in for a day", desc:"Enough time for a proper 6–8hr layover tour: War Remnants Museum, the Notre-Dame Cathedral and Central Post Office for the French colonial core, and Ben Thanh Market. Cu Chi Tunnels is the alternative if you'd rather trade the city core for history outside town — it's a half-day on its own, so pick one, not both. Check Vietnam's transit visa rules before booking a tour that leaves the airport."}
+      ]},
+      { label: "DINING", recos: [
+        {tag:"◆", name:"Gwangjang Market", meta:"Street food institution", desc:"Bindaetteok (mung bean pancakes) and mayak gimbap — the classic Seoul street food stop, good for a group."},
+        {tag:"◆", name:"Myeongdong Kyoja", meta:"Kalguksu & mandu · casual", desc:"A no-frills Seoul institution for knife-cut noodle soup and dumplings, easy for a big table."}
+      ]},
+      { label: "THINGS TO DO", recos: [
+        {tag:"◈", name:"Gyeongbokgung Palace", meta:"Morning · changing of the guard", desc:"Especially striking in winter light, with the changing-of-the-guard ceremony worth timing a visit around."},
+        {tag:"◈", name:"Bukchon Hanok Village", meta:"Traditional houses", desc:"A short walk from Gyeongbokgung — narrow lanes of traditional hanok homes."},
+        {tag:"◈", name:"Seoul Christmas Festival, Cheonggyecheon", meta:"December only", desc:"Light displays and small holiday markets along the stream, without the scale of a full Christmas market."},
+        {tag:"◈", name:"Nami Island winter light festival", meta:"Day trip from Seoul", desc:"A festival of lights transforms the island's Morning Calm Garden after dark — usually run as a guided day tour."},
+        {tag:"◈", name:"Jjimjilbang (Korean sauna)", meta:"Evening, communal", desc:"A proper winter tradition — hot tubs, saunas, and sleeping rooms, good for warming up after a cold day out."}
+      ]}
+    ]
+  },
+  mnl: {
+    id: "mnl", name: "Manila", tagline: "Home for the holidays",
+    groups: [
+      { label: "DINING", recos: [
+        {tag:"◆", name:"Toyo Eatery", meta:"Asia's 50 Best · no Michelin guide in PH yet", desc:"The Philippines isn't covered by the Michelin Guide, but this is the closest equivalent — modern Filipino cooking built on regional ingredients and heritage recipes."}
+      ]},
+      { label: "IN THE CITY", recos: [
+        {tag:"◈", name:"Intramuros & Rizal Park", meta:"Old city", desc:"The walled old city and the park beside it — a good half-day if there's downtime between family visits."},
+        {tag:"◈", name:"Binondo", meta:"World's oldest Chinatown", desc:"Ongpin Street for a food crawl — best done hungry, and lively with the holiday crowds already out in December."},
+        {tag:"◈", name:"Tagaytay", meta:"Day trip · ~1.5 hr from Manila", desc:"Cooler air and Taal Volcano viewpoints — an easy escape from the city heat during the holidays."}
+      ]}
+    ],
+    escape: true
+  }
+};
+
+const nav = document.getElementById('cityNav');
+const cardsWrap = document.getElementById('cityCards');
+
+function getActiveCities(){
+  const mid = midOption === 'manila' ? null : baseCities[midOption];
+  return mid ? [baseCities.kul, mid, baseCities.mnl] : [baseCities.kul, baseCities.mnl];
+}
+
+function renderCities(){
+  nav.innerHTML = '';
+  cardsWrap.innerHTML = '';
+  const activeCities = getActiveCities();
+
+  activeCities.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.textContent = c.name;
+    btn.className = i === 0 ? 'active' : '';
+    btn.onclick = () => showCity(c.id);
+    nav.appendChild(btn);
+
+    const card = document.createElement('div');
+    card.className = 'city-card' + (i === 0 ? ' active' : '');
+    card.id = 'card-' + c.id;
+
+    let groupsHtml = c.groups.map(g => `
+      <div class="group-label">${g.label}</div>
+      ${g.recos.map((r, ri) => `
+        <div class="reco${ri === 0 ? ' first' : ''}">
+          <div class="tag">${r.tag}</div>
+          <div>
+            <div class="name">${r.name}</div>
+            <div class="meta">${r.meta}</div>
+            <div class="desc">${r.desc}</div>
+          </div>
+        </div>`).join('')}
+    `).join('');
+
+    let escapeHtml = '';
+    if (c.escape) {
+      escapeHtml = `
+        <div class="group-label">WEEKEND ESCAPE — PICK ONE</div>
+        <div class="escape-toggle">
+          <button class="active" onclick="showEscape(this,'lu')">La Union</button>
+          <button onclick="showEscape(this,'bor')">Boracay</button>
+        </div>
+        <div class="escape-panel active" id="escape-lu">
+          <div class="reco first">
+            <div class="tag">◈</div>
+            <div>
+              <div class="name">La Union (San Juan)</div>
+              <div class="meta">~4–5 hr drive from Manila</div>
+              <div class="desc">Slower and more low-key — surf breaks, beach cafes like El Union, and an easy weekend if you'd rather road-trip than fly.</div>
+            </div>
+          </div>
+        </div>
+        <div class="escape-panel" id="escape-bor">
+          <div class="reco first">
+            <div class="tag">◈</div>
+            <div>
+              <div class="name">Boracay</div>
+              <div class="meta">~1 hr flight from Manila</div>
+              <div class="desc">Faster to get to and the classic pick — White Beach, water sports, and a livelier nightlife scene if you want a proper island break.</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    card.innerHTML = groupsHtml + escapeHtml;
+    cardsWrap.appendChild(card);
+  });
+}
+
+function showCity(id){
+  const activeCities = getActiveCities();
+  document.querySelectorAll('.city-nav button').forEach((b,i) => {
+    b.classList.toggle('active', activeCities[i] && activeCities[i].id === id);
+  });
+  document.querySelectorAll('.city-card').forEach(c => {
+    c.classList.toggle('active', c.id === 'card-' + id);
+  });
+}
+
+function showEscape(btn, id){
+  const parent = btn.closest('.city-card');
+  parent.querySelectorAll('.escape-toggle button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  parent.querySelectorAll('.escape-panel').forEach(p => p.classList.remove('active'));
+  parent.querySelector('#escape-' + id).classList.add('active');
+}
+
+renderCities();
+</script>
+
+</body>
+</html>
