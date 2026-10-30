@@ -289,7 +289,7 @@
 <header>
   <div class="eyebrow">Dec 7 &mdash; Jan 20</div>
   <h1 style="color:#FFFFFF;">Home for the holidays</h1>
-  <p>Zürich → Kuala Lumpur → Ho Chi Minh City → Seoul → Hiroshima &amp; Osaka → Manila → Kuala Lumpur → Zürich</p>
+  <p>Zürich → Kuala Lumpur → Ho Chi Minh City → Seoul → Kagoshima &amp; Osaka → Manila → Kuala Lumpur → Zürich</p>
 </header>
 
 <div class="wrap">
@@ -319,10 +319,10 @@ const legs = [
   {stub:"17", month:"DEC", route:"Kuala Lumpur → Ho Chi Minh City", detail:"Nonstop · AirAsia · 18:45–20:00 · 2h 15m", price:95, stay:false},
   {stub:"17–21", month:"DEC", route:"Ho Chi Minh City", detail:"Four nights in Saigon", price:0, stay:true},
   {stub:"21", month:"DEC", route:"Ho Chi Minh City → Seoul", detail:"Nonstop · VietJet · 12:05–19:25 · lands the evening of Claudia's birthday", price:100, stay:false},
-  {stub:"21–28", month:"DEC", route:"Seoul", detail:"Claudia's birthday on the 21st · Christmas in Seoul", price:0, stay:true},
-  {stub:"28", month:"DEC", route:"Seoul → Hiroshima", detail:"Nonstop · Jeju Air · 07:45–09:30 · 1h 45m", price:46, stay:false},
-  {stub:"28–?", month:"DEC", route:"Hiroshima", detail:"Ring in the New Year · exact days to be set", price:0, stay:true},
-  {stub:"TBD", month:"JAN", route:"Hiroshima → Osaka", detail:"Shinkansen · ~1h 30m · about ¥11,000 reserved", price:57.47, stay:false},
+  {stub:"21–29", month:"DEC", route:"Seoul", detail:"Claudia's birthday on the 21st · Christmas in Seoul", price:0, stay:true},
+  {stub:"29", month:"DEC", route:"Seoul → Kagoshima", detail:"Nonstop · Jeju Air · 12:40–14:15 · 1h 35m", price:64, stay:false},
+  {stub:"29–?", month:"DEC", route:"Kagoshima", detail:"Ring in the New Year · exact days to be set", price:0, stay:true},
+  {stub:"TBD", month:"JAN", route:"Kagoshima → Osaka", detail:"Shinkansen · ~4h · about ¥23,600 reserved", price:123.40, stay:false},
   {stub:"?–11", month:"JAN", route:"Osaka", detail:"Jeremy's birthday on the 10th", price:0, stay:true},
   {stub:"11", month:"JAN", route:"Osaka (KIX) → Manila", detail:"Nonstop · Cebu Pacific · 19:35–23:25 · 4h 50m", price:105, stay:false},
   {stub:"11–17", month:"JAN", route:"Manila", detail:"Family time", price:0, stay:true},
@@ -393,7 +393,7 @@ const baseCities = {
     ]
   },
   seoul: {
-    id: "seoul", name: "Seoul", tagline: "Dec 21–28, winter city stretch",
+    id: "seoul", name: "Seoul", tagline: "Dec 21–29, winter city stretch",
     groups: [
       { label: "THE OCCASION", recos: [
         {tag:"◇", name:"Claudia's birthday, Dec 21", meta:"Meeting the girls in Seoul", desc:"Your flight lands in the evening of the 21st, so plan a late birthday dinner or drinks with the girls."}
@@ -412,7 +412,7 @@ const baseCities = {
     ]
   },
   jp: {
-    id: "jp", name: "Hiroshima & Osaka", tagline: "Dec 28 – Jan 11, New Year in Japan",
+    id: "jp", name: "Kagoshima & Osaka", tagline: "Dec 29 – Jan 11, New Year in Japan",
     groups: [
       { label: "THE OCCASION", recos: [
         {tag:"◇", name:"Jeremy's birthday, Jan 10", meta:"In Osaka", desc:"Worth booking a dinner early — January restaurants fill up after the New Year break."}
@@ -420,10 +420,12 @@ const baseCities = {
       { label: "NEW YEAR TIMING", recos: [
         {tag:"◇", name:"Plan around Jan 1–3", meta:"Heads up", desc:"Many restaurants and shops close for the first days of January, and shrines are packed for hatsumode (first visits). Check hours before you go."}
       ]},
-      { label: "HIROSHIMA", recos: [
-        {tag:"◈", name:"Peace Memorial Park & Museum", meta:"Landmark", desc:"The A-Bomb Dome and the museum — a quiet, essential morning."},
-        {tag:"◈", name:"Miyajima & Itsukushima Shrine", meta:"Half-day trip", desc:"The floating torii gate, deer and grilled oysters, a short ferry from the mainland."},
-        {tag:"◆", name:"Hiroshima-style okonomiyaki", meta:"Local dish", desc:"Layered with noodles rather than mixed — try it at the Okonomimura building, where each stall has its own style."}
+      { label: "KAGOSHIMA", recos: [
+        {tag:"◈", name:"Sakurajima", meta:"Active volcano · short ferry", desc:"A 15-minute ferry from the city to the volcano island, with lava-field walks and foot baths."},
+        {tag:"◈", name:"Sengan-en Garden", meta:"Landmark", desc:"A clan villa garden with Sakurajima as its backdrop."},
+        {tag:"◆", name:"Kurobuta pork & Kagoshima ramen", meta:"Local food", desc:"Kagoshima's black pork, served as tonkatsu or shabu-shabu, is the regional specialty."},
+        {tag:"◈", name:"Ibusuki sand baths", meta:"Half-day trip", desc:"Be buried in naturally heated sand on the coast, about an hour by train."},
+        {tag:"◈", name:"Optional stop in Hiroshima", meta:"On the way to Osaka", desc:"The shinkansen passes through Hiroshima, so you can break the 4-hour ride there (Peace Memorial Park, Miyajima)."}
       ]},
       { label: "OSAKA", recos: [
         {tag:"◆", name:"Dotonbori & Kuromon Market", meta:"Street food", desc:"Takoyaki, okonomiyaki and seafood skewers along the canal — best after dark."},
