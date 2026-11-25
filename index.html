@@ -153,6 +153,9 @@
   }
   .total-bar .label{font-size:13px;color:var(--ochre);}
   .total-bar .value{font-family:'Fraunces',serif;font-size:26px;color:var(--white);}
+  .cur-toggle{display:inline-flex;gap:4px;margin-left:12px;vertical-align:middle;}
+  .cur-toggle button{font-family:'Inter',sans-serif;font-size:11px;padding:3px 10px;border-radius:999px;border:1px solid var(--ochre);background:transparent;color:var(--ochre);cursor:pointer;}
+  .cur-toggle button.active{background:var(--ochre);color:var(--white);}
 
   /* City guide section */
   .section-title{
@@ -295,10 +298,10 @@
 <div class="wrap">
 
   <div class="total-bar">
-    <span class="label">Total fares</span>
-    <span class="value" id="totalValue">CHF 1019.77</span>
+    <span class="label">Total fares<span class="cur-toggle"><button id="curCHF" class="active" onclick="setCur('CHF')">CHF</button><button id="curMYR" onclick="setCur('MYR')">MYR</button></span></span>
+    <span class="value" id="totalValue">CHF 1334.03</span>
   </div>
-  <p style="font-size:12px;color:var(--taupe);text-align:center;margin:0 0 40px;">Geneva↔KL round trip rebooked, price assumed unchanged at CHF 554.30 · other fares are current Google Flights prices, before bag fees</p>
+  <p style="font-size:12px;color:var(--taupe);text-align:center;margin:0 0 40px;">Geneva↔KL round trip rebooked, price assumed unchanged at CHF 554.30 · other fares are per person · MYR shown at about 4.92 per CHF, indicative only</p>
 
   <div class="timeline" id="timeline"></div>
 
@@ -313,19 +316,39 @@
 <footer>Built for the December–January loop &middot; fares and picks current as of booking</footer>
 
 <script>
+const MYR_PER_CHF = 4.92;
+let currency = 'CHF';
+
 const legs = [
-  {stub:"7", month:"DEC", route:"Geneva → Kuala Lumpur", detail:"1 stop DOH (9h 50m layover) · Qatar Airways · 08:30 departure · lands Dec 8, 14:40", price:"CHF 554.30", stay:false},
+  {stub:"7", month:"DEC", route:"Geneva → Kuala Lumpur", detail:"1 stop DOH (9h 50m layover) · Qatar Airways · 08:30 departure · lands Dec 8, 14:40", price:554.30, stay:false},
   {stub:"8–17", month:"DEC", route:"Kuala Lumpur", detail:"BTS concert on the 13th", price:0, stay:true},
-  {stub:"17", month:"DEC", route:"Kuala Lumpur → Ho Chi Minh City", detail:"Nonstop · VietJet VJ936 · 11:30–12:25 · 1h 55m", price:154.50, stay:false},
+  {stub:"17", month:"DEC", route:"Kuala Lumpur → Ho Chi Minh City", detail:"Nonstop · VietJet VJ936 · 11:30–12:25 · 1h 55m", price:154.50, myr:761, stay:false},
   {stub:"17–22", month:"DEC", route:"Ho Chi Minh City", detail:"Five nights in Saigon", price:0, stay:true},
-  {stub:"22", month:"DEC", route:"Ho Chi Minh City → Seoul", detail:"Nonstop · Vietnam Airlines VN402 · 09:25–16:25 · 5h", price:116, stay:false},
-  {stub:"22–27", month:"DEC", route:"Seoul", detail:"Christmas in Seoul · belated birthday dinner for Claudia (the 21st)", price:0, stay:true},
-  {stub:"27", month:"DEC", route:"Seoul → Kagoshima", detail:"Nonstop · Korean Air KE2179 · 14:40–16:20 · 1h 40m", price:225.56, stay:false},
-  {stub:"27–5", month:"DEC–JAN", route:"Kagoshima", detail:"Ring in the New Year", price:0, stay:true},
-  {stub:"5–6", month:"JAN", route:"Kagoshima → Kuala Lumpur", detail:"1 stop TPE · China Airlines CI119/CI721 · 12:25 departure · lands Jan 6, 13:25", price:378, stay:false},
+  {stub:"22", month:"DEC", route:"Ho Chi Minh City → Seoul", detail:"Nonstop · Vietnam Airlines VN402 · 09:25–16:25 · 5h", price:116, myr:570, stay:false},
+  {stub:"22–26", month:"DEC", route:"Seoul", detail:"Christmas in Seoul · belated birthday dinner for Claudia (the 21st)", price:0, stay:true},
+  {stub:"26", month:"DEC", route:"Seoul → Kagoshima", detail:"Nonstop · Eastar Jet ZE651 · 15:35–17:15 · 1h 40m · 15 kg checked bag included", price:131.23, stay:false},
+  {stub:"26–5", month:"DEC–JAN", route:"Kagoshima", detail:"Ring in the New Year", price:0, stay:true},
+  {stub:"5–6", month:"JAN", route:"Kagoshima → Kuala Lumpur", detail:"1 stop TPE · China Airlines CI119/CI721 · 12:25 departure · lands Jan 6, 13:25", price:378, myr:1858, stay:false},
   {stub:"6–26", month:"JAN", route:"Kuala Lumpur", detail:"Jeremy's birthday on the 10th", price:0, stay:true},
   {stub:"26–27", month:"JAN", route:"Kuala Lumpur → Geneva", detail:"1 stop DOH · Qatar Airways · 19:55 departure · lands Jan 27, 06:15", price:"incl.", stay:false}
 ];
+
+function amount(l){
+  if (currency === 'MYR') {
+    const m = l.myr !== undefined ? l.myr : Math.round(l.price * MYR_PER_CHF);
+    return m;
+  }
+  return l.price;
+}
+function fmt(v){
+  return currency === 'MYR' ? 'RM ' + Math.round(v).toLocaleString('en-US') : 'CHF ' + v.toFixed(2);
+}
+function setCur(c){
+  currency = c;
+  document.getElementById('curCHF').classList.toggle('active', c === 'CHF');
+  document.getElementById('curMYR').classList.toggle('active', c === 'MYR');
+  renderTimeline();
+}
 
 function renderTimeline(){
   const timeline = document.getElementById('timeline');
@@ -333,7 +356,7 @@ function renderTimeline(){
   legs.forEach(l => {
     const el = document.createElement('div');
     el.className = 'leg' + (l.stay ? ' stay' : '');
-    const priceLabel = typeof l.price === 'number' ? (l.price > 0 ? 'CHF ' + l.price.toFixed(2) : '') : l.price;
+    const priceLabel = typeof l.price === 'number' ? (l.price > 0 ? fmt(amount(l)) : '') : l.price;
     el.innerHTML = `
       <div class="stub"><div class="date">${l.month}</div><div class="day">${l.stub}</div></div>
       <div class="body">
@@ -345,8 +368,8 @@ function renderTimeline(){
       </div>`;
     timeline.appendChild(el);
   });
-  const total = 554.30 + legs.reduce((sum, l) => sum + (typeof l.price === 'number' ? l.price : 0), 0);
-  document.getElementById('totalValue').textContent = 'CHF ' + total.toFixed(2);
+  const total = legs.reduce((sum, l) => sum + (typeof l.price === 'number' ? amount(l) : 0), 0);
+  document.getElementById('totalValue').textContent = fmt(total);
 }
 
 renderTimeline();
@@ -389,7 +412,7 @@ const baseCities = {
     ]
   },
   seoul: {
-    id: "seoul", name: "Seoul", tagline: "Dec 22–27, winter city stretch",
+    id: "seoul", name: "Seoul", tagline: "Dec 22–26, winter city stretch",
     groups: [
       { label: "THE OCCASION", recos: [
         {tag:"◇", name:"Claudia's birthday, Dec 21", meta:"Belated celebration in Seoul", desc:"You land on the 22nd, the day after, so plan a belated birthday dinner or drinks with the girls."}
@@ -408,7 +431,7 @@ const baseCities = {
     ]
   },
   jp: {
-    id: "jp", name: "Kagoshima", tagline: "Dec 27 – Jan 5, New Year in Japan",
+    id: "jp", name: "Kagoshima", tagline: "Dec 26 – Jan 5, New Year in Japan",
     groups: [
       { label: "NEW YEAR TIMING", recos: [
         {tag:"◇", name:"Plan around Jan 1–3", meta:"Heads up", desc:"Many restaurants and shops close for the first days of January, and shrines are packed for hatsumode (first visits). Check hours before you go."}
