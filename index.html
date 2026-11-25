@@ -153,9 +153,9 @@
   }
   .total-bar .label{font-size:13px;color:var(--ochre);}
   .total-bar .value{font-family:'Fraunces',serif;font-size:26px;color:var(--white);}
-  .cur-toggle{display:inline-flex;gap:4px;margin-left:12px;vertical-align:middle;}
-  .cur-toggle button{font-family:'Inter',sans-serif;font-size:11px;padding:3px 10px;border-radius:999px;border:1px solid var(--ochre);background:transparent;color:var(--ochre);cursor:pointer;}
-  .cur-toggle button.active{background:var(--ochre);color:var(--white);}
+  .cur-switch{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;font-size:13px;color:var(--taupe);}
+  .cur-switch button{font-family:'Inter',sans-serif;font-size:13px;padding:8px 18px;border-radius:999px;border:1px solid var(--ochre);background:var(--white);color:var(--charcoal);cursor:pointer;}
+  .cur-switch button.active{background:var(--ochre);color:var(--white);}
 
   /* City guide section */
   .section-title{
@@ -290,15 +290,21 @@
 <body>
 
 <header>
-  <div class="eyebrow">Dec 7 &mdash; Jan 27</div>
+  <div class="eyebrow">Dec 9 &mdash; Jan 27</div>
   <h1 style="color:#FFFFFF;">Home for the holidays</h1>
   <p>Geneva → Kuala Lumpur → Ho Chi Minh City → Seoul → Kagoshima → Kuala Lumpur → Geneva</p>
 </header>
 
 <div class="wrap">
 
+  <div class="cur-switch">
+    <span>Show prices in</span>
+    <button id="curCHF" class="active" onclick="setCur('CHF')">CHF</button>
+    <button id="curMYR" onclick="setCur('MYR')">MYR (RM)</button>
+  </div>
+
   <div class="total-bar">
-    <span class="label">Total fares<span class="cur-toggle"><button id="curCHF" class="active" onclick="setCur('CHF')">CHF</button><button id="curMYR" onclick="setCur('MYR')">MYR</button></span></span>
+    <span class="label">Total fares</span>
     <span class="value" id="totalValue">CHF 1334.03</span>
   </div>
   <p style="font-size:12px;color:var(--taupe);text-align:center;margin:0 0 40px;">Geneva↔KL round trip rebooked, price assumed unchanged at CHF 554.30 · other fares are per person · MYR shown at about 4.92 per CHF, indicative only</p>
@@ -320,8 +326,8 @@ const MYR_PER_CHF = 4.92;
 let currency = 'CHF';
 
 const legs = [
-  {stub:"7", month:"DEC", route:"Geneva → Kuala Lumpur", detail:"1 stop DOH (9h 50m layover) · Qatar Airways · 08:30 departure · lands Dec 8, 14:40", price:554.30, stay:false},
-  {stub:"8–17", month:"DEC", route:"Kuala Lumpur", detail:"BTS concert on the 13th", price:0, stay:true},
+  {stub:"9", month:"DEC", route:"Geneva → Kuala Lumpur", detail:"1 stop DOH (9h 50m layover) · Qatar Airways · 08:30 departure · lands Dec 10, 14:40", price:554.30, stay:false},
+  {stub:"10–17", month:"DEC", route:"Kuala Lumpur", detail:"BTS concert on the 13th", price:0, stay:true},
   {stub:"17", month:"DEC", route:"Kuala Lumpur → Ho Chi Minh City", detail:"Nonstop · VietJet VJ936 · 11:30–12:25 · 1h 55m", price:154.50, myr:761, stay:false},
   {stub:"17–22", month:"DEC", route:"Ho Chi Minh City", detail:"Five nights in Saigon", price:0, stay:true},
   {stub:"22", month:"DEC", route:"Ho Chi Minh City → Seoul", detail:"Nonstop · Vietnam Airlines VN402 · 09:25–16:25 · 5h", price:116, myr:570, stay:false},
@@ -345,6 +351,7 @@ function fmt(v){
 }
 function setCur(c){
   currency = c;
+  try { localStorage.setItem('cur', c); } catch(e) {}
   document.getElementById('curCHF').classList.toggle('active', c === 'CHF');
   document.getElementById('curMYR').classList.toggle('active', c === 'MYR');
   renderTimeline();
@@ -372,11 +379,12 @@ function renderTimeline(){
   document.getElementById('totalValue').textContent = fmt(total);
 }
 
-renderTimeline();
+let saved = null; try { saved = localStorage.getItem('cur'); } catch(e) {}
+if (saved === 'MYR') { setCur('MYR'); } else { renderTimeline(); }
 
 const baseCities = {
   kul: {
-    id: "kul", name: "Kuala Lumpur", tagline: "Dec 8–17 and Jan 6–26",
+    id: "kul", name: "Kuala Lumpur", tagline: "Dec 10–17 and Jan 6–26",
     groups: [
       { label: "BIRTHDAY DINNER — SOMETHING INTIMATE", recos: [
         {tag:"◆", name:"Studio Restaurant", meta:"Intimate tasting menu · Plaza Batai", desc:"Dim, low-lit dining room built for a small group. Six-, eight-, or ten-course tasting menus centred on seafood and vegetables — book the whole room out if you want it just the two of you plus Jeremy's crew."}
