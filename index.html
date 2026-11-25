@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kuala Lumpur – Bangkok – Manila | Dec–Jan</title>
+<title>Home for the holidays | Dec–Jan</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
 
@@ -287,9 +287,9 @@
 <body>
 
 <header>
-  <div class="eyebrow">Dec 7 &mdash; Jan 20</div>
+  <div class="eyebrow">Dec 7 &mdash; Jan 27</div>
   <h1 style="color:#FFFFFF;">Home for the holidays</h1>
-  <p>Zürich → Kuala Lumpur → Ho Chi Minh City → Seoul → Kagoshima &amp; Osaka → Manila → Kuala Lumpur → Zürich</p>
+  <p>Geneva → Kuala Lumpur → Ho Chi Minh City → Seoul → Kagoshima → Kuala Lumpur → Geneva</p>
 </header>
 
 <div class="wrap">
@@ -298,7 +298,7 @@
     <span class="label">Total fares</span>
     <span class="value" id="totalValue">CHF 1019.77</span>
   </div>
-  <p style="font-size:12px;color:var(--taupe);text-align:center;margin:0 0 40px;">Zürich↔KL round trip confirmed at CHF 554.30 · other fares are current Google Flights prices, before bag fees</p>
+  <p style="font-size:12px;color:var(--taupe);text-align:center;margin:0 0 40px;">Geneva↔KL round trip rebooked, price assumed unchanged at CHF 554.30 · other fares are current Google Flights prices, before bag fees</p>
 
   <div class="timeline" id="timeline"></div>
 
@@ -314,21 +314,17 @@
 
 <script>
 const legs = [
-  {stub:"7", month:"DEC", route:"Zürich → Kuala Lumpur", detail:"1 stop DOH · Qatar Airways · QR96/QR852 · lands Dec 8, 14:40", price:"CHF 554.30", stay:false},
+  {stub:"7", month:"DEC", route:"Geneva → Kuala Lumpur", detail:"1 stop DOH (9h 50m layover) · Qatar Airways · 08:30 departure · lands Dec 8, 14:40", price:"CHF 554.30", stay:false},
   {stub:"8–17", month:"DEC", route:"Kuala Lumpur", detail:"BTS concert on the 13th", price:0, stay:true},
-  {stub:"17", month:"DEC", route:"Kuala Lumpur → Ho Chi Minh City", detail:"Nonstop · AirAsia · 18:45–20:00 · 2h 15m", price:95, stay:false},
-  {stub:"17–21", month:"DEC", route:"Ho Chi Minh City", detail:"Four nights in Saigon", price:0, stay:true},
-  {stub:"21", month:"DEC", route:"Ho Chi Minh City → Seoul", detail:"Nonstop · VietJet · 12:05–19:25 · lands the evening of Claudia's birthday", price:100, stay:false},
-  {stub:"21–29", month:"DEC", route:"Seoul", detail:"Claudia's birthday on the 21st · Christmas in Seoul", price:0, stay:true},
-  {stub:"29", month:"DEC", route:"Seoul → Kagoshima", detail:"Nonstop · Jeju Air · 12:40–14:15 · 1h 35m", price:64, stay:false},
-  {stub:"29–?", month:"DEC", route:"Kagoshima", detail:"Ring in the New Year · exact days to be set", price:0, stay:true},
-  {stub:"TBD", month:"JAN", route:"Kagoshima → Osaka", detail:"Shinkansen · ~4h · about ¥23,600 reserved", price:123.40, stay:false},
-  {stub:"?–11", month:"JAN", route:"Osaka", detail:"Jeremy's birthday on the 10th", price:0, stay:true},
-  {stub:"11", month:"JAN", route:"Osaka (KIX) → Manila", detail:"Nonstop · Cebu Pacific · 19:35–23:25 · 4h 50m", price:105, stay:false},
-  {stub:"11–17", month:"JAN", route:"Manila", detail:"Family time", price:0, stay:true},
-  {stub:"17", month:"JAN", route:"Manila → Kuala Lumpur", detail:"Nonstop · Cebu Pacific · 20:15–00:20 (+1) · lands Jan 18", price:62, stay:false},
-  {stub:"18–19", month:"JAN", route:"Kuala Lumpur", detail:"Last days before flying home", price:0, stay:true},
-  {stub:"19–20", month:"JAN", route:"Kuala Lumpur → Zürich", detail:"1 stop DOH · Qatar Airways · QR853/QR93 · lands Jan 20, 07:00", price:"incl.", stay:false}
+  {stub:"17", month:"DEC", route:"Kuala Lumpur → Ho Chi Minh City", detail:"Nonstop · VietJet VJ936 · 11:30–12:25 · 1h 55m", price:154.50, stay:false},
+  {stub:"17–22", month:"DEC", route:"Ho Chi Minh City", detail:"Five nights in Saigon", price:0, stay:true},
+  {stub:"22", month:"DEC", route:"Ho Chi Minh City → Seoul", detail:"Nonstop · Vietnam Airlines VN402 · 09:25–16:25 · 5h", price:116, stay:false},
+  {stub:"22–27", month:"DEC", route:"Seoul", detail:"Christmas in Seoul · belated birthday dinner for Claudia (the 21st)", price:0, stay:true},
+  {stub:"27", month:"DEC", route:"Seoul → Kagoshima", detail:"Nonstop · Korean Air KE2179 · 14:40–16:20 · 1h 40m", price:225.56, stay:false},
+  {stub:"27–5", month:"DEC–JAN", route:"Kagoshima", detail:"Ring in the New Year", price:0, stay:true},
+  {stub:"5–6", month:"JAN", route:"Kagoshima → Kuala Lumpur", detail:"1 stop TPE · China Airlines CI119/CI721 · 12:25 departure · lands Jan 6, 13:25", price:378, stay:false},
+  {stub:"6–26", month:"JAN", route:"Kuala Lumpur", detail:"Jeremy's birthday on the 10th", price:0, stay:true},
+  {stub:"26–27", month:"JAN", route:"Kuala Lumpur → Geneva", detail:"1 stop DOH · Qatar Airways · 19:55 departure · lands Jan 27, 06:15", price:"incl.", stay:false}
 ];
 
 function renderTimeline(){
@@ -337,7 +333,7 @@ function renderTimeline(){
   legs.forEach(l => {
     const el = document.createElement('div');
     el.className = 'leg' + (l.stay ? ' stay' : '');
-    const priceLabel = typeof l.price === 'number' ? (l.price > 0 ? 'CHF ' + l.price : '') : l.price;
+    const priceLabel = typeof l.price === 'number' ? (l.price > 0 ? 'CHF ' + l.price.toFixed(2) : '') : l.price;
     el.innerHTML = `
       <div class="stub"><div class="date">${l.month}</div><div class="day">${l.stub}</div></div>
       <div class="body">
@@ -357,9 +353,9 @@ renderTimeline();
 
 const baseCities = {
   kul: {
-    id: "kul", name: "Kuala Lumpur", tagline: "Dec 8–17 and Jan 18–19",
+    id: "kul", name: "Kuala Lumpur", tagline: "Dec 8–17 and Jan 6–26",
     groups: [
-      { label: "AN INTIMATE DINNER", recos: [
+      { label: "BIRTHDAY DINNER — SOMETHING INTIMATE", recos: [
         {tag:"◆", name:"Studio Restaurant", meta:"Intimate tasting menu · Plaza Batai", desc:"Dim, low-lit dining room built for a small group. Six-, eight-, or ten-course tasting menus centred on seafood and vegetables — book the whole room out if you want it just the two of you plus Jeremy's crew."}
       ]},
       { label: "MORE DINING", recos: [
@@ -375,7 +371,7 @@ const baseCities = {
     ]
   },
   hcmc: {
-    id: "hcmc", name: "Ho Chi Minh City", tagline: "Dec 17–21, four nights in Saigon",
+    id: "hcmc", name: "Ho Chi Minh City", tagline: "Dec 17–22, five nights in Saigon",
     groups: [
       { label: "DINING", recos: [
         {tag:"◆", name:"Bánh Mì Huynh Hoa", meta:"Street food institution", desc:"The loaded, pâté-heavy bánh mì that has a queue most hours — cheap and worth it."},
@@ -393,10 +389,10 @@ const baseCities = {
     ]
   },
   seoul: {
-    id: "seoul", name: "Seoul", tagline: "Dec 21–29, winter city stretch",
+    id: "seoul", name: "Seoul", tagline: "Dec 22–27, winter city stretch",
     groups: [
       { label: "THE OCCASION", recos: [
-        {tag:"◇", name:"Claudia's birthday, Dec 21", meta:"Meeting the girls in Seoul", desc:"Your flight lands in the evening of the 21st, so plan a late birthday dinner or drinks with the girls."}
+        {tag:"◇", name:"Claudia's birthday, Dec 21", meta:"Belated celebration in Seoul", desc:"You land on the 22nd, the day after, so plan a belated birthday dinner or drinks with the girls."}
       ]},
       { label: "DINING", recos: [
         {tag:"◆", name:"Gwangjang Market", meta:"Street food institution", desc:"Bindaetteok (mung bean pancakes) and mayak gimbap — the classic Seoul street food stop, good for a group."},
@@ -412,11 +408,8 @@ const baseCities = {
     ]
   },
   jp: {
-    id: "jp", name: "Kagoshima & Osaka", tagline: "Dec 29 – Jan 11, New Year in Japan",
+    id: "jp", name: "Kagoshima", tagline: "Dec 27 – Jan 5, New Year in Japan",
     groups: [
-      { label: "THE OCCASION", recos: [
-        {tag:"◇", name:"Jeremy's birthday, Jan 10", meta:"In Osaka", desc:"Worth booking a dinner early — January restaurants fill up after the New Year break."}
-      ]},
       { label: "NEW YEAR TIMING", recos: [
         {tag:"◇", name:"Plan around Jan 1–3", meta:"Heads up", desc:"Many restaurants and shops close for the first days of January, and shrines are packed for hatsumode (first visits). Check hours before you go."}
       ]},
@@ -424,30 +417,11 @@ const baseCities = {
         {tag:"◈", name:"Sakurajima", meta:"Active volcano · short ferry", desc:"A 15-minute ferry from the city to the volcano island, with lava-field walks and foot baths."},
         {tag:"◈", name:"Sengan-en Garden", meta:"Landmark", desc:"A clan villa garden with Sakurajima as its backdrop."},
         {tag:"◆", name:"Kurobuta pork & Kagoshima ramen", meta:"Local food", desc:"Kagoshima's black pork, served as tonkatsu or shabu-shabu, is the regional specialty."},
+        {tag:"◆", name:"Tenmonkan district", meta:"Food and shopping", desc:"The city's main downtown strip, good for izakaya and a late dinner."},
         {tag:"◈", name:"Ibusuki sand baths", meta:"Half-day trip", desc:"Be buried in naturally heated sand on the coast, about an hour by train."},
-        {tag:"◈", name:"Optional stop in Hiroshima", meta:"On the way to Osaka", desc:"The shinkansen passes through Hiroshima, so you can break the 4-hour ride there (Peace Memorial Park, Miyajima)."}
-      ]},
-      { label: "OSAKA", recos: [
-        {tag:"◆", name:"Dotonbori & Kuromon Market", meta:"Street food", desc:"Takoyaki, okonomiyaki and seafood skewers along the canal — best after dark."},
-        {tag:"◆", name:"Shinsekai kushikatsu", meta:"Casual", desc:"Deep-fried skewers in a retro neighbourhood. Don't double-dip the sauce."},
-        {tag:"◈", name:"Osaka Castle", meta:"Landmark", desc:"The keep and the grounds, easy to pair with a morning walk."},
-        {tag:"◈", name:"Nara day trip", meta:"~45 min by train", desc:"Todai-ji and the free-roaming deer in the park."}
+        {tag:"◈", name:"Chiran samurai district", meta:"Day trip", desc:"Preserved samurai residences with small gardens, about an hour from the city."}
       ]}
     ]
-  },
-  mnl: {
-    id: "mnl", name: "Manila", tagline: "Jan 11–17, family time",
-    groups: [
-      { label: "DINING", recos: [
-        {tag:"◆", name:"Toyo Eatery", meta:"Asia's 50 Best · no Michelin guide in PH yet", desc:"The Philippines isn't covered by the Michelin Guide, but this is the closest equivalent — modern Filipino cooking built on regional ingredients and heritage recipes."}
-      ]},
-      { label: "IN THE CITY", recos: [
-        {tag:"◈", name:"Intramuros & Rizal Park", meta:"Old city", desc:"The walled old city and the park beside it — a good half-day if there's downtime between family visits."},
-        {tag:"◈", name:"Binondo", meta:"World's oldest Chinatown", desc:"Ongpin Street for a food crawl — best done hungry, and lively with the holiday crowds already out in December."},
-        {tag:"◈", name:"Tagaytay", meta:"Day trip · ~1.5 hr from Manila", desc:"Cooler air and Taal Volcano viewpoints — an easy escape from the city heat during the holidays."}
-      ]}
-    ],
-    escape: true
   }
 };
 
@@ -455,7 +429,7 @@ const nav = document.getElementById('cityNav');
 const cardsWrap = document.getElementById('cityCards');
 
 function getActiveCities(){
-  return [baseCities.kul, baseCities.hcmc, baseCities.seoul, baseCities.jp, baseCities.mnl];
+  return [baseCities.kul, baseCities.hcmc, baseCities.seoul, baseCities.jp];
 }
 
 function renderCities(){
